@@ -1,0 +1,1941 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+    {% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orascom Go - توصيل سريع داخل الكويت - خدمة توصيل للمطاعم والمتاجر</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="Orascom Go - خدمة توصيل سريعة وموثوقة في الكويت. توصيل للمطاعم والمتاجر داخل العاصمة وبين المحافظات. توصيل فوري خلال ساعات مع تتبع مباشر للشحنات.">
+    <meta name="keywords"
+        content="توصيل الكويت, خدمة توصيل, توصيل سريع, Orascom Go, توصيل مطاعم, توصيل متاجر, Kuwait delivery">
+    <meta name="author" content="Orascom Go">
+    <link rel="icon" type="image/jpeg" href="photos/Untitled design.jpg">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="">
+    <meta property="og:title" content="Orascom Go - توصيل سريع داخل الكويت">
+    <meta property="og:description"
+        content="خدمة توصيل سريعة وموثوقة للمطاعم والمتاجر في الكويت. توصيل فوري خلال ساعات مع أسعار تنافسية.">
+    <meta property="og:image" content="photos/Untitled design.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="">
+    <meta property="twitter:title" content="Orascom Go - توصيل سريع داخل الكويت">
+    <meta property="twitter:description"
+        content="خدمة توصيل سريعة وموثوقة للمطاعم والمتاجر في الكويت. توصيل فوري خلال ساعات مع أسعار تنافسية.">
+    <meta property="twitter:image" content="photos/Untitled design.jpg">
+
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<style>
+    /* ============= TRACKING STYLES ============= */
+    
+    .tracking {
+        padding: 4rem 0;
+        background: #f8f9fa;
+    }
+    
+    .tracking-wrapper {
+        display: flex;
+        gap: 2rem;
+        align-items: flex-start;
+    }
+    
+    .tracking-content {
+        flex: 1;
+        width: 100% !important;
+    }
+    
+    .tracking-tabs {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        border-bottom: 2px solidrgb(247, 241, 241);
+    }
+    
+    .track-tab-btn {
+        padding: 1rem 1.5rem;
+        border: none;
+        background: none;
+        cursor: pointer;
+        font-size: 1rem;
+        color: #7f8c8d;
+        border-bottom: 3px solid transparent;
+        transition: all 0.3s ease;
+        font-weight: 600;
+        font-family: 'Cairo', sans-serif;
+    }
+    
+    .track-tab-btn:hover {
+        color: #667eea;
+    }
+    
+    .track-tab-btn.active {
+        color: #667eea;
+        border-bottom-color: #667eea;
+    }
+    
+    .tracking-form {
+        margin-bottom: 2rem;
+        display: none;
+    }
+    
+    .tracking-form.active {
+        display: block;
+    }
+    
+    #tracking-form-number {
+        display: block;
+    }
+    
+    .tracking-form .form-group {
+        display: flex;
+        gap: 0.75rem;
+    }
+    
+    .tracking-form input {
+        flex: 1;
+        padding: 1rem;
+        border: 2px solid #e0e0e0;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-family: 'Cairo', sans-serif;
+        transition: all 0.3s ease;
+    }
+    
+    .tracking-form input:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+    
+    .tracking-form button {
+        padding: 1rem 2rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        font-family: 'Cairo', sans-serif;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .tracking-form button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+    }
+    
+    /* Result Container */
+    .tracking-result-container {
+        min-height: 100px;
+    }
+    
+    /* Tracking Card */
+    .tracking-card {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        border-radius: 16px;
+        padding: 2.5rem;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        animation: slideInUp 0.6s ease-out;
+    }
+    
+    @keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .tracking-card h3 {
+        text-align: center;
+        color: #2c3e50;
+        margin-bottom: 2rem;
+        font-size: 1.6rem;
+    }
+    
+    /* Order Details */
+    .tracking-details {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        border-left: 5px solid #27ae60;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .tracking-details > div {
+        padding: 0.5rem 0;
+    }
+    
+    .tracking-details strong {
+        display: block;
+        color: #7f8c8d;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.5rem;
+    }
+    
+    .tracking-details span {
+        display: block;
+        color: #2c3e50;
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+    
+    /* Timeline */
+    .timeline-container {
+        margin-top: 2rem;
+    }
+    
+    .timeline-title {
+        text-align: center;
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 2rem;
+    }
+    
+    .timeline {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        position: relative;
+        padding: 2rem 0;
+    }
+    
+    .timeline::before {
+        content: '';
+        position: absolute;
+        top: 25px;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(to right, #27ae60 0%, #27ae60 66%, #bdc3c7 66%, #bdc3c7 100%);
+        z-index: 0;
+    }
+    
+    .step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+        flex: 1;
+    }
+    
+    .step .dot {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: white;
+        border: 3px solid #bdc3c7;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+        font-size: 1.3rem;
+        transition: all 0.4s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        position: relative;
+        color: #7f8c8d;
+    }
+    
+    .step.active .dot {
+        background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+        border-color: #27ae60;
+        box-shadow: 0 0 30px rgba(39, 174, 96, 0.5);
+        transform: scale(1.15);
+        color: white;
+    }
+    
+    .step.active .dot::after {
+        content: '✓';
+        position: absolute;
+        color: white;
+        font-weight: bold;
+        font-size: 24px;
+    }
+    
+    .step.active .dot i {
+        display: none;
+    }
+    
+    .step span {
+        text-align: center;
+        font-size: 0.95rem;
+        color: #34495e;
+        font-weight: 500;
+        margin-top: 0.8rem;
+    }
+    
+    .step.active span {
+        color: #27ae60;
+        font-weight: 700;
+    }
+    
+    /* Messages */
+    .error-message {
+        background: #ffe6e6;
+        color: #c0392b;
+        padding: 1.5rem;
+        border-radius: 12px;
+        border-left: 4px solid #c0392b;
+        text-align: center;
+        font-weight: 500;
+    }
+    
+    .loading-message {
+        text-align: center;
+        padding: 2rem;
+        color: #667eea;
+        font-size: 1rem;
+    }
+    
+    .empty-message {
+        text-align: center;
+        padding: 2rem;
+        color: #7f8c8d;
+    }
+    
+    .spinner {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(102, 126, 234, 0.3);
+        border-radius: 50%;
+        border-top-color: #667eea;
+        animation: spin 1s linear infinite;
+        margin-right: 0.5rem;
+        vertical-align: middle;
+    }
+    
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+    
+    /* Tracking Image Side */
+    .tracking-image {
+        flex: 0 0 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .package-animation {
+        animation: float 3s ease-in-out infinite;
+    }
+    
+    .package-animation i {
+        color: #667eea;
+        opacity: 0.8;
+        filter: drop-shadow(0 10px 20px rgba(102, 126, 234, 0.3));
+    }
+    
+    @keyframes float {
+        0%, 100% {
+            transform: translateY(0px);
+        }
+        50% {
+            transform: translateY(-20px);
+        }
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .tracking-wrapper {
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+    
+        .tracking-image {
+            flex: 1;
+            width: 100%;
+        }
+    
+        .tracking-card {
+            padding: 1.5rem;
+        }
+    
+        .tracking-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+        }
+    
+        .tracking-details {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            padding: 1rem;
+        }
+    
+        .timeline {
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+    
+        .timeline::before {
+            display: none;
+        }
+    
+        .step {
+            flex: 0 0 calc(33.333% - 0.7rem);
+        }
+    
+        .step .dot {
+            width: 40px;
+            height: 40px;
+            border-width: 2px;
+            font-size: 1rem;
+        }
+    
+        .step span {
+            font-size: 0.8rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .tracking-details {
+            grid-template-columns: 1fr;
+        }
+    
+        .step {
+            flex: 0 0 calc(50% - 0.5rem);
+        }
+    
+        .step .dot {
+            width: 35px;
+            height: 35px;
+        }
+    
+        .tracking-form .form-group {
+            flex-direction: column;
+        }
+    
+        .track-tab-btn {
+            padding: 0.75rem 1rem;
+            font-size: 0.9rem;
+        }
+    }
+    </style>
+    
+    
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo-container">
+                    <img src="{% static 'photos/Untitled design.jpg' %}" alt="Orascom Go Logo" class="logo">
+                    <span class="logo-text">Orascom Go</span>
+                </div>
+                <button class="menu-toggle" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-menu">
+                    <li><a href="#home">الرئيسية</a></li>
+                    <li><a href="#order">اطلب توصيل</a></li>
+                    <li><a href="#services">خدمات التوصيل</a></li>
+                    <li><a href="#tracking">تتبع شحنتك</a></li>
+                    <li><a href="#register">سجل معنا</a></li>
+                    <li><a href="#about">من نحن</a></li>
+                    <li><a href="#contact">اتصل بنا</a></li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-auth">
+                            <a href="" class="btn btn-logout">
+                                <i class="fas fa-sign-out-alt"></i> 
+                            </a>
+                        </li>
+                    {% else %}
+                    <li class="nav-auth">
+                        <a href="login.html" class="btn btn-login">
+                            <i class="fas fa-sign-in-alt"></i> تسجيل الدخول
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <!-- Background Mockups -->
+        <div class="hero-mockups">
+            <div class="mockup-slide mockup-1"><img src="{% static 'Mockups/Frame 1.png' %}" alt="Orascom Go Animation"></div>
+            <div class="mockup-slide mockup-2"><img src="{% static 'Mockups/Frame 2.png' %}" alt="Orascom Go Animation"></div>
+            <div class="mockup-slide mockup-3"><img src="{% static 'Mockups/Frame 3.png' %}" alt="Orascom Go Animation"></div>
+            <div class="mockup-slide mockup-4"><img src="{% static 'Mockups/Frame 4.png' %}" alt="Orascom Go Animation"></div>
+            <div class="mockup-slide mockup-5"><img src="{% static 'Mockups/Frame 5.png' %}" alt="Orascom Go Animation"></div>
+            <div class="mockup-slide mockup-6"><img src="{% static 'Mockups/Frame 6.png' %}" alt="Orascom Go Animation"></div>
+            <div class="mockup-slide mockup-7"><img src="{% static 'Mockups/Frame 7.png' %}" alt="Orascom Go Animation"></div>
+            <div class="mockup-slide mockup-8"><img src="{% static 'Mockups/Frame 8.png' %}" alt="Orascom Go Animation"></div>
+            <div class="mockup-slide mockup-9"><img src="{% static 'Mockups/Frame 9.png' %}" alt="Orascom Go Animation"></div>
+            <div class="mockup-slide mockup-10"><img src="{% static 'Mockups/Frame 10.png' %}" alt="Orascom Go Animation"></div>
+            <div class="mockup-slide mockup-11"><img src="{% static 'Mockups/Frame 11.png' %}" alt="Orascom Go Animation"></div>
+        </div>
+
+        <div class="hero-overlay"></div>
+
+        <!-- Animated Background Shapes -->
+        <div class="hero-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+            <div class="shape shape-5"></div>
+        </div>
+
+        <!-- Floating Mockups -->
+        <div class="floating-mockups">
+            <!-- Right Side -->
+            <div class="floating-mockup mockup-float-1"><img src="{% static 'Mockups/Moc 2.png' %}" alt="Delivery"></div>
+            <div class="floating-mockup mockup-float-2"><img src="{% static 'Mockups/Moc 4.png' %}" alt="Delivery"></div>
+            <div class="floating-mockup mockup-float-3"><img src="{% static 'Mockups/Moc 3.png' %}" alt="Delivery"></div>
+            <!-- Left Side -->
+            <div class="floating-mockup mockup-float-4"><img src="{% static 'Mockups/Moc 5.png' %}" alt="Delivery"></div>
+            <div class="floating-mockup mockup-float-5"><img src="{% static 'Mockups/Moc 1.png' %}" alt="Delivery"></div>
+            <div class="floating-mockup mockup-float-6"><img src="{% static 'Mockups/Moc 6.png' %}" alt="Delivery"></div>
+        </div>
+
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-logo-section">
+                    <div class="logo-container-hero">
+                        <img src="{% static 'photos/Untitled design.jpg' %}" alt="Orascom Go Logo" class="hero-logo">
+                        <div class="logo-glow"></div>
+                    </div>
+                </div>
+                <h1 class="hero-title">
+                    <span class="title-highlight">توصيل سريع</span> داخل الكويت خلال ساعات
+                </h1>
+                <p class="hero-subtitle">خدمة توصيل للمطاعم والمتاجر والشركات - توصيل داخل العاصمة وبين المناطق</p>
+                <div class="hero-buttons">
+                    <a href="#order" class="btn btn-primary order-btn">
+                        <i class="fas fa-shopping-cart"></i> اطلب توصيل
+                    </a>
+                    <a href="#tracking" class="btn btn-secondary"><i class="fas fa-search"></i> تتبع شحنتك</a>
+                    <a href="#register" class="btn btn-secondary"><i class="fas fa-store"></i> تسجيل التاجر أو
+                        المطعم</a>
+                </div>
+            </div>
+        </div>
+
+<!-- Quick Tracking Section - الصح -->
+<div class="quick-tracking">
+    <div class="container">
+        <div class="quick-tracking-box">
+            <h3><i class="fas fa-box"></i> تتبع الشحنة برقم التتبع</h3>
+            
+            <form class="quick-tracking-form" id="quick-track-form">
+                <input type="text" id="quick-tracking-number" placeholder="أدخل رقم التتبع هنا" required>
+                <button type="submit" class="btn btn-orange quick-track-btn">
+                    <i class="fas fa-search"></i> تتبع
+                </button>
+            </form>
+            
+            <div id="quick-tracking-result"></div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+.quick-tracking-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    animation: slideInUp 0.5s ease-out;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.quick-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.quick-card-header h4 {
+    color: #2c3e50;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.quick-status-badge {
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    color: white;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.quick-card-info {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.quick-info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.quick-info-label {
+    color: #7f8c8d;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.quick-info-value {
+    color: #2c3e50;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.quick-timeline {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.quick-timeline::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(to right, #27ae60 0%, #27ae60 50%, #ecf0f1 50%, #ecf0f1 100%);
+    z-index: 0;
+}
+
+.quick-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    flex: 1;
+}
+
+.quick-dot {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: white;
+    border: 2px solid #ecf0f1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #ecf0f1;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.quick-step.active .quick-dot {
+    background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+    border-color: #27ae60;
+    box-shadow: 0 0 20px rgba(39, 174, 96, 0.4);
+    color: white;
+    transform: scale(1.1);
+}
+
+.quick-step span {
+    text-align: center;
+    font-size: 0.75rem;
+    color: #7f8c8d;
+    font-weight: 500;
+    margin-top: 0.3rem;
+}
+
+.quick-step.active span {
+    color: #27ae60;
+    font-weight: 700;
+}
+
+/* Error and Loading */
+.error-message {
+    background: #ffe6e6;
+    color: #c0392b;
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 4px solid #c0392b;
+    text-align: center;
+    font-weight: 500;
+    margin-top: 1rem;
+}
+
+.loading-message {
+    text-align: center;
+    padding: 1.5rem;
+    color: #667eea;
+    margin-top: 1rem;
+}
+
+.spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(102, 126, 234, 0.3);
+    border-radius: 50%;
+    border-top-color: #667eea;
+    animation: spin 1s linear infinite;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .quick-card-info {
+        grid-template-columns: 1fr;
+    }
+
+    .quick-timeline {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .quick-timeline::before {
+        display: none;
+    }
+
+    .quick-step {
+        flex: 0 0 calc(33.333% - 0.3rem);
+    }
+
+    .quick-dot {
+        width: 35px;
+        height: 35px;
+        font-size: 0.8rem;
+    }
+
+    .quick-step span {
+        font-size: 0.7rem;
+    }
+}
+</style>
+
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="features-grid">
+                <div class="feature-card feature-blue">
+                    <div class="feature-icon">
+                        <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <h3>سرعة</h3>
+                    <p>توصيل سريع في نفس اليوم</p>
+                </div>
+                <div class="feature-card feature-green">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>أمان الشحن</h3>
+                    <p>حماية كاملة لشحناتك</p>
+                </div>
+                <div class="feature-card feature-orange">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>دعم 24/7</h3>
+                    <p>فريق دعم متاح على مدار الساعة</p>
+                </div>
+                <div class="feature-card feature-blue">
+                    <div class="feature-icon">
+                        <i class="fas fa-tag"></i>
+                    </div>
+                    <h3>أسعار واضحة</h3>
+                    <p>شفافية كاملة في الأسعار</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Order Section - بدون تسجيل -->
+    <section id="order" class="order">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">اطلب توصيل</h2>
+                <p class="section-subtitle">اطلب توصيلك الآن بدون تسجيل - خدمة سريعة ومباشرة</p>
+            </div>
+            <div class="order-wrapper">
+                <form class="order-form" id="guest-order-form" >
+                    {% csrf_token %}
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-user"></i> الاسم الكامل</label>
+                            <input type="text" id="order-name" placeholder="أدخل اسمك الكامل" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-phone"></i> رقم الهاتف</label>
+                            <input type="tel" id="order-phone" placeholder="5xxxxxxxx" pattern="[0-9]{8}" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-map-marker-alt"></i> من (المنطقة)</label>
+                            <select id="order-from" required>
+                                <option value="">اختر المنطقة</option>
+                                <option value="capital">العاصمة</option>
+                                <option value="salmiya">السالمية</option>
+                                <option value="farwaniya">الفروانية</option>
+                                <option value="hawalli">حولي</option>
+                                <option value="jahra">الجهراء</option>
+                                <option value="ahmadi">الأحمدي</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-map-marker-alt"></i> إلى (المنطقة)</label>
+                            <select id="order-to" required>
+                                <option value="">اختر المنطقة</option>
+                                <option value="capital">العاصمة</option>
+                                <option value="salmiya">السالمية</option>
+                                <option value="farwaniya">الفروانية</option>
+                                <option value="hawalli">حولي</option>
+                                <option value="jahra">الجهراء</option>
+                                <option value="ahmadi">الأحمدي</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-map-pin"></i> العنوان التفصيلي</label>
+                        <textarea id="order-address" rows="3" placeholder="أدخل العنوان التفصيلي" required></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-weight"></i> الوزن (كجم)</label>
+                            <input type="number" id="order-weight" placeholder="0.5" min="0.1" step="0.1" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-clock"></i> نوع الخدمة</label>
+                            <select id="order-service-type" required>
+                                <option value="ultra">⚡ فوري – خلال 30 دقيقة</option>
+                                <option value="super">🚀 سريع جدًا – خلال 1–3 ساعات</option>
+                                <option value="express1">🏎 سريع – خلال 3–6 ساعات</option>
+                                <option value="normal1">📸 قياسي – خلال 6–12 ساعة</option>
+                                <option value="normal2">💰 اقتصادي – خلال 12–18 ساعة</option>
+                                <option value="normal3">🍃 يومي – خلال 24 ساعة</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-comment"></i> ملاحظات (اختياري)</label>
+                        <textarea id="order-notes" rows="2" placeholder="أي ملاحظات إضافية"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-money-bill-wave"></i> طريقة الدفع</label>
+                        <div class="payment-options">
+                            <label class="payment-option">
+                                <input type="radio" name="payment" value="cod" checked>
+                                <span><i class="fas fa-hand-holding-usd"></i> دفع عند الاستلام (COD)</span>
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="payment" value="knet">
+                                <span><i class="fas fa-credit-card"></i> KNET</span>
+                            </label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block" id="submit-guest-order">
+                        <i class="fas fa-paper-plane"></i> إرسال الطلب
+                        <span class="spinner" style="display: none;"> جاري الإرسال...</span>
+                    </button>
+                    <p class="order-note">
+                        <i class="fas fa-info-circle"></i> سيتم إرسال رسالة SMS عند خروج المندوب للتوصيل
+                    </p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">خدمات التوصيل</h2>
+                <p class="section-subtitle">خدمات مناسبة للكويت - توصيل سريع وآمن داخل جميع المناطق</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon service-blue">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h3>توصيل للمطاعم</h3>
+                    <p>طلبات - انستغرام - مشاريع منزلية - توصيل سريع خلال ساعة أو 3 ساعات</p>
+                    <a href="#order" class="service-link">اطلب الآن <i class="fas fa-arrow-left"></i></a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon service-orange">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>توصيل سريع</h3>
+                    <p>توصيل مستعجل خلال ساعة أو 3 ساعات داخل الكويت</p>
+                    <a href="#order" class="service-link">اطلب الآن <i class="fas fa-arrow-left"></i></a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon service-green">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <h3>توصيل بين المحافظات</h3>
+                    <p>توصيل بين جميع محافظات الكويت (العاصمة، السالمية، الفروانية، حولي، الجهراء، الأحمدي)</p>
+                    <a href="#order" class="service-link">اطلب الآن <i class="fas fa-arrow-left"></i></a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon service-blue">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h3>توصيل مستندات وباكيجات</h3>
+                    <p>توصيل آمن للمستندات والباكيجات داخل الكويت</p>
+                    <a href="#order" class="service-link">اطلب الآن <i class="fas fa-arrow-left"></i></a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon service-orange">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h3>Small Business Delivery</h3>
+                    <p>توصيل للمشاريع الصغيرة - حلول مخصصة للشركات الصغيرة</p>
+                    <a href="#register" class="service-link">سجل كتاجر <i class="fas fa-arrow-left"></i></a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon service-green">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <h3>eCommerce Delivery</h3>
+                    <p>خطة خاصة للمتاجر الإلكترونية - تكامل مع المتاجر الإلكترونية</p>
+                    <a href="#register" class="service-link">سجل كتاجر <i class="fas fa-arrow-left"></i></a>
+                </div>
+            </div>
+            <div class="service-areas">
+                <h3><i class="fas fa-map"></i> مناطق الخدمة</h3>
+                <div class="areas-grid">
+                    <div class="area-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>توصيل داخل العاصمة</span>
+                    </div>
+                    <div class="area-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>توصيل بين المناطق</span>
+                    </div>
+                    <div class="area-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>توصيل سريع داخل الكويت</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tracking Section -->
+    <section id="tracking" class="tracking">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">تتبع شحنتك</h2>
+                <p class="section-subtitle">تتبع شحنتك برقم التتبع أو رقم هاتفك - متابعة مباشرة لحالة الشحنة</p>
+            </div>
+            <div class="tracking-wrapper">
+                <div class="tracking-content" style="width: 100%;">
+                    <div class="tracking-tabs">
+                        <button class="track-tab-btn active" data-tab="tracking-number">
+                            <i class="fas fa-barcode"></i> برقم التتبع
+                        </button>
+                        <button class="track-tab-btn" data-tab="tracking-phone">
+                            <i class="fas fa-phone"></i> برقم الهاتف
+                        </button>
+                    </div>
+    
+                    <!-- Tracking Number Form -->
+                    <form class="tracking-form" id="tracking-form-number">
+                        <div class="form-group">
+                            <input type="text" id="tracking-number" placeholder="أدخل رقم التتبع" required>
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> تتبع</button>
+                        </div>
+                    </form>
+    
+                    <!-- Phone Form -->
+                    <form class="tracking-form" id="tracking-form-phone" style="display: none;">
+                        <div class="form-group">
+                            <input type="tel" id="tracking-phone" placeholder="5xxxxxxxx" pattern="[0-9]{8}" required>
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> تتبع</button>
+                        </div>
+                    </form>
+    
+                    <!-- Tracking Result -->
+                    <div id="tracking-result" class="tracking-result-container"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Why Choose Us Section -->
+    <section id="why-us" class="why-us">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">لماذا تختار Orascom Go؟</h2>
+                <p class="section-subtitle">نقدم لك أفضل خدمة توصيل في الكويت مع ضمان الجودة والسرعة</p>
+            </div>
+            <div class="why-us-grid">
+                <div class="why-us-card">
+                    <div class="why-us-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>سرعة فائقة</h3>
+                    <p>توصيل في أقل من نصف ساعة للطلبات العاجلة - أسرع خدمة توصيل في الكويت</p>
+                </div>
+                <div class="why-us-card">
+                    <div class="why-us-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>أمان مضمون</h3>
+                    <p>حماية كاملة لشحناتك مع تأمين شامل على جميع الطلبات</p>
+                </div>
+                <div class="why-us-card">
+                    <div class="why-us-icon">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <h3>تغطية شاملة</h3>
+                    <p>نخدم جميع مناطق الكويت - توصيل داخل العاصمة وبين جميع المحافظات</p>
+                </div>
+                <div class="why-us-card">
+                    <div class="why-us-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>دعم 24/7</h3>
+                    <p>فريق دعم متاح على مدار الساعة لمساعدتك في أي وقت</p>
+                </div>
+                <div class="why-us-card">
+                    <div class="why-us-icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <h3>أسعار تنافسية</h3>
+                    <p>أسعار عادلة وشفافة مع خيارات دفع متعددة تناسب احتياجاتك</p>
+                </div>
+                <div class="why-us-card">
+                    <div class="why-us-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>تتبع مباشر</h3>
+                    <p>تتبع شحنتك مباشرة عبر رقم التتبع أو رقم هاتفك</p>
+                </div>
+            </div>
+            <div class="why-us-offers">
+                <h3>عروض خاصة للشركات</h3>
+                <div class="offers-grid">
+                    <div class="offer-card">
+                        <i class="fas fa-percent"></i>
+                        <h4>خصم 20% للطلبات الكبيرة</h4>
+                        <p>وفر على عملك! خصم حصري 20% للشركات التي تزيد طلباتها عن 100 طلب شهرياً. كلما زادت الطلبات،
+                            زادت التوفيرات</p>
+                    </div>
+                    <div class="offer-card">
+                        <i class="fas fa-shopping-bag"></i>
+                        <h4>أسعار مخفضة للمتاجر</h4>
+                        <p>عروض حصرية للتجار والمتاجر الإلكترونية. أسعار تنافسية تبدأ من 2 دينار للطلبة مع خصومات تصل
+                            إلى 30% للطلبات المتكررة</p>
+                    </div>
+                    <div class="offer-card">
+                        <i class="fas fa-utensils"></i>
+                        <h4>توصيل يومي للمطاعم</h4>
+                        <p>خدمة توصيل مخصصة للمطاعم مع جدولة ذكية. توصيل سريع خلال 30-45 دقيقة مع أسعار خاصة تبدأ من 1.5
+                            دينار للطلبة</p>
+                    </div>
+                    <div class="offer-card">
+                        <i class="fas fa-map"></i>
+                        <h4>مناطق بدون رسوم إضافية</h4>
+                        <p>توصيل مجاني لجميع مناطق الكويت بدون رسوم إضافية. من السالمية إلى الجهراء، نغطي كل مكان في
+                            الكويت</p>
+                    </div>
+                    <div class="offer-card">
+                        <i class="fas fa-chart-line"></i>
+                        <h4>تقارير مفصلة</h4>
+                        <p>لوحة تحكم متقدمة مع تقارير شاملة عن جميع الطلبات والتوصيلات. تتبع الأداء، الإحصائيات،
+                            والتحليلات التفصيلية</p>
+                    </div>
+                    <div class="offer-card">
+                        <i class="fas fa-plug"></i>
+                        <h4>تكامل مع الأنظمة</h4>
+                        <p>تكامل سهل وسريع مع WooCommerce، Shopify، Magento، وأكثر. ربط تلقائي مع أنظمة إدارة المتاجر
+                            الإلكترونية</p>
+                    </div>
+                </div>
+                <a href="#contact" class="btn btn-primary btn-block" style="max-width: 400px; margin: 2rem auto 0;">
+                    <i class="fas fa-phone-alt"></i> تواصل معنا للتفاصيل
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">من نحن</h2>
+            </div>
+            <div class="about-wrapper">
+                <div class="about-content">
+                    <div class="about-text">
+                        <h3>نبذة عن الشركة</h3>
+                        <p>Orascom Go هي شركة رائدة في مجال خدمات التوصيل والتوزيع. نحن نقدم حلول توصيل شاملة ومبتكرة
+                            تلبي احتياجات العملاء في جميع أنحاء المنطقة.</p>
+                        <p>بفضل فريقنا المحترف وأحدث التقنيات، نضمن توصيل طلباتك بأمان وسرعة. نحن ملتزمون بتقديم أفضل
+                            تجربة توصيل ممكنة لعملائنا.</p>
+                    </div>
+                    <div class="vision-mission">
+                        <div class="vm-card">
+                            <i class="fas fa-eye"></i>
+                            <h4>رؤيتنا</h4>
+                            <p>أن نكون الشركة الرائدة في مجال التوصيل والتوزيع في المنطقة، مع التركيز على الابتكار
+                                والجودة والرضا الكامل للعملاء.</p>
+                        </div>
+                        <div class="vm-card">
+                            <i class="fas fa-bullseye"></i>
+                            <h4>رسالتنا</h4>
+                            <p>تقديم خدمات توصيل سريعة وآمنة وموثوقة، مع ضمان رضا العملاء من خلال فريق محترف وتقنيات
+                                حديثة.</p>
+                        </div>
+                    </div>
+                    <div class="team-section">
+                        <h3>فريقنا</h3>
+                        <div class="team-grid">
+                            <div class="team-member">
+                                <div class="team-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <h4>فريق المندوبين</h4>
+                                <p>مندوبون محترفون ومدربون</p>
+                            </div>
+                            <div class="team-member">
+                                <div class="team-avatar">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <h4>فريق الدعم</h4>
+                                <p>دعم فني متاح 24/7</p>
+                            </div>
+                            <div class="team-member">
+                                <div class="team-avatar">
+                                    <i class="fas fa-cogs"></i>
+                                </div>
+                                <h4>فريق التقنية</h4>
+                                <p>أحدث التقنيات والحلول</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <h3>10,000+</h3>
+                            <p>عميل راضٍ</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>50,000+</h3>
+                            <p>توصيلة ناجحة</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>97%</h3>
+                            <p>معدل الرضا</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>24/7</h3>
+                            <p>دعم فني</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Register Section -->
+    <section id="register" class="register">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">سجل معنا</h2>
+                <p class="section-subtitle">انضم إلى فريق Orascom Go كمندوب توصيل أو تاجر</p>
+            </div>
+            
+            <!-- Tabs Buttons -->
+            <div class="register-tabs">
+                <button class="tab-btn active" data-tab="driver">سجل كمندوب</button>
+                <button class="tab-btn" data-tab="merchant">سجل كتاجر</button>
+            </div>
+            
+            <!-- Register Content -->
+            <div class="register-content">
+                
+                <!-- Driver Tab -->
+                <div class="tab-content active" id="driver-tab">
+                    <div class="register-wrapper">
+                        <div class="register-info">
+                            <h3>مزايا الانضمام كمندوب توصيل</h3>
+                            <ul class="benefits-list">
+                                <li><i class="fas fa-check"></i> دخل ثابت ومضمون</li>
+                                <li><i class="fas fa-check"></i> مرونة في أوقات العمل</li>
+                                <li><i class="fas fa-check"></i> دعم فني كامل</li>
+                                <li><i class="fas fa-check"></i> تدريب احترافي</li>
+                                <li><i class="fas fa-check"></i> تأمين شامل</li>
+                                <li><i class="fas fa-check"></i> حوافز ومكافآت</li>
+                            </ul>
+                            <div class="income-estimate">
+                                <h4><i class="fas fa-money-bill-wave"></i> معدل الدخل المتوقع</h4>
+                                <p>يمكنك كسب من <strong>200-500 دينار كويتي</strong> شهرياً حسب عدد الطلبات</p>
+                            </div>
+                            <div class="video-container">
+                                <video autoplay controls playsinline class="scroll-video">
+                                    <source src="{% static 'photos/video test.mp4' %}" type="video/mp4">
+                                    متصفحك لا يدعم تشغيل الفيديو.
+                                </video>
+                            </div>
+                        </div>
+                        
+                        <!-- Driver Form -->
+                        <form class="register-form">
+                            <h3>نموذج التسجيل - مندوب توصيل</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label><i class="fas fa-user"></i> الاسم الكامل</label>
+                                    <input type="text" name="full_name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label><i class="fas fa-phone"></i> رقم الهاتف</label>
+                                    <input type="tel" name="phone" placeholder="5xxxxxxxx" pattern="[0-9]{8}" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label><i class="fas fa-envelope"></i> البريد الإلكتروني</label>
+                                    <input type="email" name="email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label><i class="fas fa-map-marker-alt"></i> مناطق العمل</label>
+                                    <select name="work_areas" multiple required style="height: 100px;">
+                                        <option value="capital">العاصمة</option>
+                                        <option value="salmiya">السالمية</option>
+                                        <option value="farwaniya">الفروانية</option>
+                                        <option value="hawalli">حولي</option>
+                                        <option value="jahra">الجهراء</option>
+                                        <option value="ahmadi">الأحمدي</option>
+                                    </select>
+                                    <small>اضغط Ctrl/Cmd لاختيار أكثر من منطقة</small>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fas fa-car"></i> نوع المركبة</label>
+                                <select name="vehicle_type" required>
+                                    <option value="">اختر نوع المركبة</option>
+                                    <option value="motorcycle">دراجة نارية</option>
+                                    <option value="car">سيارة</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fas fa-id-card"></i> رخصة القيادة</label>
+                                <input type="text" name="license_number" placeholder="رقم الرخصة" required>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fas fa-file-upload"></i> رخصة القيادة (صورة)</label>
+                                <input type="file" name="license_image" accept="image/*" required>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fas fa-comment"></i> رسالة</label>
+                                <textarea name="message" rows="4" placeholder="أخبرنا عن نفسك"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">إرسال الطلب</button>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Merchant Tab -->
+                <div class="tab-content" id="merchant-tab">
+                    <div class="register-wrapper">
+                        <div class="register-info">
+                            <h3>مزايا الانضمام كتاجر / مطعم</h3>
+                            <ul class="benefits-list">
+                                <li><i class="fas fa-check"></i> أسعار مخفضة للشحن</li>
+                                <li><i class="fas fa-check"></i> لوحة تحكم متكاملة لإدارة الطلبات</li>
+                                <li><i class="fas fa-check"></i> تتبع جميع الطلبات</li>
+                                <li><i class="fas fa-check"></i> تقارير مفصلة</li>
+                                <li><i class="fas fa-check"></i> دعم فني مخصص</li>
+                                <li><i class="fas fa-check"></i> تكامل مع المتاجر الإلكترونية</li>
+                                <li><i class="fas fa-check"></i> Google Maps routing</li>
+                                <li><i class="fas fa-check"></i> صفحة أسعار "التوصيل اليومي للمطاعم"</li>
+                            </ul>
+                            <div class="video-container">
+                                <video autoplay controls playsinline class="scroll-video">
+                                    <source src="{% static 'photos/video test.mp4' %}" type="video/mp4">
+                                    متصفحك لا يدعم تشغيل الفيديو.
+                                </video>
+                            </div>
+                        </div>
+                        
+                        <!-- Merchant Form -->
+                        <form class="register-form">
+                            <h3>نموذج التسجيل - تاجر / مطعم</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label><i class="fas fa-store"></i> اسم المتجر/الشركة/المطعم</label>
+                                    <input type="text" name="business_name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label><i class="fas fa-phone"></i> رقم الهاتف</label>
+                                    <input type="tel" name="phone" placeholder="5xxxxxxxx" pattern="[0-9]{8}" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label><i class="fas fa-envelope"></i> البريد الإلكتروني</label>
+                                    <input type="email" name="email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label><i class="fas fa-globe"></i> الموقع الإلكتروني / انستغرام (إن وجد)</label>
+                                    <input type="text" name="website_instagram" placeholder="رابط الموقع أو @instagram">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fas fa-briefcase"></i> نوع النشاط</label>
+                                <select name="business_type" required>
+                                    <option value="">اختر نوع النشاط</option>
+                                    <option value="restaurant">مطعم</option>
+                                    <option value="instagram">مشروع انستغرام</option>
+                                    <option value="home-business">مشروع منزلي</option>
+                                    <option value="ecommerce">متجر إلكتروني</option>
+                                    <option value="retail">متجر صغير</option>
+                                    <option value="wholesale">تجارة جملة</option>
+                                    <option value="other">أخرى</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fas fa-map-marker-alt"></i> الموقع (المنطقة)</label>
+                                <select name="area" required>
+                                    <option value="">اختر المنطقة</option>
+                                    <option value="capital">العاصمة</option>
+                                    <option value="salmiya">السالمية</option>
+                                    <option value="farwaniya">الفروانية</option>
+                                    <option value="hawalli">حولي</option>
+                                    <option value="jahra">الجهراء</option>
+                                    <option value="ahmadi">الأحمدي</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fas fa-shopping-bag"></i> عدد الطلبات المتوقع شهرياً</label>
+                                <input type="number" name="expected_orders" min="1" placeholder="مثال: 50" required>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fas fa-comment"></i> رسالة</label>
+                                <textarea name="message" rows="4" placeholder="أخبرنا عن متجرك/مطعمك"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">إرسال الطلب</button>
+                        </form>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+    
+
+    <div id="loading" style="display: none;">جارٍ التحميل...</div>
+    <!-- Fleet Section -->
+    <section class="fleet">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">أسطول التوصيل</h2>
+                <p class="section-subtitle">أسطول حديث ومتنوع لتلبية جميع احتياجاتك</p>
+            </div>
+            <div class="fleet-grid">
+                <div class="fleet-item">
+                    <i class="fas fa-motorcycle fa-4x"></i>
+                    <h3>دراجات نارية</h3>
+                    <p>للتوصيل السريع داخل المدينة</p>
+                </div>
+                <div class="fleet-item">
+                    <i class="fas fa-car fa-4x"></i>
+                    <h3>سيارات</h3>
+                    <p>للتوصيل الآمن للبضائع المتوسطة</p>
+                </div>
+                <div class="fleet-item">
+                    <i class="fas fa-truck fa-4x"></i>
+                    <h3>شاحنات</h3>
+                    <p>لنقل البضائع الكبيرة والثقيلة</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">اتصل بنا</h2>
+                <p class="section-subtitle">نحن هنا لمساعدتك في أي وقت</p>
+            </div>
+            <div class="contact-wrapper">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div>
+                            <h4>الهاتف</h4>
+                            <p dir="ltr"><a href="tel:+96598752233">+965 9875 2233</a></p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon whatsapp">
+                            <i class="fab fa-whatsapp"></i>
+                        </div>
+                        <div>
+                            <h4>واتساب</h4>
+                            <a href="https://wa.me/96598752233" target="_blank" class="whatsapp-link">
+                                <i class="fab fa-whatsapp"></i> ابدأ محادثة على واتساب
+                            </a>
+                            <p style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--gray-medium);">
+                                للطلبات الفورية والاستفسارات
+                            </p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h4>البريد الإلكتروني</h4>
+                            <p><a href="mailto:orascomgokuwait@gmail.com">orascomgokuwait@gmail.com</a></p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <h4>موقع المكتب</h4>
+                            <p>الفروانية</p>
+                            <p>شارع جبيب المناور</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div>
+                            <h4>ساعات العمل</h4>
+                            <p><strong>9 صباحاً - 11 مساءً</strong></p>
+                            <p>يومياً - خدمة على مدار الساعة</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon"
+                            style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                            <i class="fas fa-share-alt"></i>
+                        </div>
+                        <div>
+                            <h4>وسائل التواصل الاجتماعي</h4>
+                            <div class="contact-social-links">
+                                <a href="https://www.facebook.com/share/1Bj21jiNfT/?mibextid=wwXIfr" target="_blank"
+                                    rel="noopener noreferrer" class="social-link facebook" title="فيسبوك">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="https://wa.me/96598752233" target="_blank" rel="noopener noreferrer"
+                                    class="social-link whatsapp" title="واتساب">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
+                                <a href="https://www.instagram.com/orascomgo/" target="_blank" rel="noopener noreferrer"
+                                    class="social-link instagram" title="انستجرام">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="https://x.com/OrascomGo?s=20" target="_blank" rel="noopener noreferrer"
+                                    class="social-link twitter" title="تويتر">
+                                    <svg class="x-logo-svg" viewBox="0 0 24 24" fill="currentColor" width="20"
+                                        height="20">
+                                        <path
+                                            d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                                    </svg>
+                                </a>
+                                <a href="https://snapchat.com/t/dhRolgsW" target="_blank" rel="noopener noreferrer"
+                                    class="social-link snapchat" title="سناب شات">
+                                    <i class="fab fa-snapchat"></i>
+                                </a>
+                                <a href="https://www.tiktok.com/@orascomgo?_r=1&_t=ZS-91jc7L7hFVV" target="_blank"
+                                    rel="noopener noreferrer" class="social-link tiktok" title="تيك توك">
+                                    <i class="fab fa-tiktok"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form class="contact-form">
+                    {% csrf_token %} 
+                    <div class="form-row">
+                        <div class="form-group">
+                            <input type="text" placeholder="الاسم" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" placeholder="رقم الهاتف" pattern="[0-9]{8}" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" placeholder="الموضوع" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea rows="5" placeholder="الرسالة" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">إرسال الرسالة</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="faq">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">الأسئلة الشائعة</h2>
+                <p class="section-subtitle">إجابات على أكثر الأسئلة شيوعاً</p>
+            </div>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>كيف يمكنني تتبع شحنتي؟</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>يمكنك تتبع شحنتك بسهولة من خلال إدخال رقم التتبع في صفحة "تتبع الشحنة" في الموقع. ستحصل على
+                            تحديثات فورية عن حالة شحنتك.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>ما هي طرق الدفع المتاحة؟</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>نقبل طريقتين للدفع:</p>
+                        <ul style="margin-top: 0.5rem; padding-right: 1.5rem;">
+                            <li><strong>دفع عند الاستلام (COD):</strong> يمكنك الدفع نقداً عند استلام الشحنة</li>
+                            <li><strong>KNET:</strong> الدفع الإلكتروني عبر بطاقة KNET</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>كم تستغرق عملية التوصيل؟</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>مدة التوصيل تختلف حسب نوع الخدمة:</p>
+                        <ul style="margin-top: 0.5rem; padding-right: 1.5rem;">
+                            <li><strong>⚡ فوري:</strong> خلال 30 دقيقة</li>
+                            <li><strong>🚀 سريع جداً:</strong> خلال 1–3 ساعات</li>
+                            <li><strong>🏎 سريع:</strong> خلال 3–6 ساعات</li>
+                            <li><strong>📸 قياسي:</strong> خلال 6–12 ساعة</li>
+                            <li><strong>💰 اقتصادي:</strong> خلال 12–18 ساعة</li>
+                            <li><strong>🍃 يومي:</strong> خلال 24 ساعة</li>
+                            <li>التوصيل بين المناطق قد يستغرق وقتاً إضافياً</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>هل يمكنني إلغاء الطلب بعد تأكيده؟</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>نعم، يمكنك إلغاء الطلب قبل بدء عملية التوصيل. يرجى الاتصال بنا على أقرب وقت لإلغاء الطلب.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>ما هي المناطق التي تخدمونها؟</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>نخدم جميع مناطق الكويت:</p>
+                        <ul style="margin-top: 0.5rem; padding-right: 1.5rem;">
+                            <li>العاصمة</li>
+                            <li>السالمية</li>
+                            <li>الفروانية</li>
+                            <li>حولي</li>
+                            <li>الجهراء</li>
+                            <li>الأحمدي</li>
+                        </ul>
+                        <p style="margin-top: 0.5rem;">توصيل داخل العاصمة وبين المناطق بدون رسوم إضافية.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>هل يمكنني الطلب بدون تسجيل؟</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>نعم، يمكنك طلب التوصيل مباشرة بدون تسجيل حساب. فقط املأ نموذج الطلب في صفحة "اطلب توصيل"
+                            وسنقوم بالتواصل معك.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>هل يتم إرسال رسالة SMS عند خروج المندوب؟</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>نعم، سيتم إرسال رسالة SMS تلقائياً عند خروج المندوب للتسليم مع رقم المندوب والوقت المتوقع
+                            للوصول.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Chat Button -->
+
+    <!-- WhatsApp Float Button -->
+    <a href="https://wa.me/96598752233" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+        <span>ابدأ طلب توصيل</span>
+    </a>
+
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Orascom Go</h4>
+                    <p>توصيل سريع داخل الكويت</p>
+                    <p>خدمة توصيل للمطاعم والمتاجر والشركات</p>
+                    <p style="margin-top: 1rem; color: var(--primary-gold);" dir="ltr">
+                        <i class="fas fa-phone"></i> +965 9875 2233
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h4>روابط سريعة</h4>
+                    <ul>
+                        <li><a href="#home">الرئيسية</a></li>
+                        <li><a href="#order">اطلب توصيل</a></li>
+                        <li><a href="#tracking">تتبع شحنتك</a></li>
+                        <li><a href="#services">خدمات التوصيل</a></li>
+                        <li><a href="#register">سجل معنا</a></li>
+                        <li><a href="#contact">اتصل بنا</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>خدماتنا</h4>
+                    <ul>
+                        <li><a href="#services">توصيل للمطاعم</a></li>
+                        <li><a href="#services">توصيل سريع</a></li>
+                        <li><a href="#services">توصيل بين المحافظات</a></li>
+                        <li><a href="#services">توصيل مستندات</a></li>
+                        <li><a href="#services">Small Business Delivery</a></li>
+                        <li><a href="#services">eCommerce Delivery</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>تابعنا</h4>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/share/1Bj21jiNfT/?mibextid=wwXIfr" target="_blank"
+                            rel="noopener noreferrer" aria-label="Facebook" title="فيسبوك">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://wa.me/96598752233" target="_blank" rel="noopener noreferrer"
+                            aria-label="WhatsApp" title="واتساب">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <a href="https://www.instagram.com/orascomgo/" target="_blank" rel="noopener noreferrer"
+                            aria-label="Instagram" title="انستجرام">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://x.com/OrascomGo?s=20" target="_blank" rel="noopener noreferrer"
+                            aria-label="X (Twitter)" title="تويتر" class="x-logo">
+                            <svg class="x-logo-svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+                                <path
+                                    d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                            </svg>
+                        </a>
+                        <a href="https://snapchat.com/t/dhRolgsW" target="_blank" rel="noopener noreferrer"
+                            aria-label="Snapchat" title="سناب شات">
+                            <i class="fab fa-snapchat"></i>
+                        </a>
+                        <a href="https://www.tiktok.com/@orascomgo?_r=1&_t=ZS-91jc7L7hFVV" target="_blank"
+                            rel="noopener noreferrer" aria-label="TikTok" title="تيك توك">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                    </div>
+                    <div class="payment-methods">
+                        <h4>طرق الدفع</h4>
+                        <div class="payment-icons">
+                            <i class="fas fa-hand-holding-usd" title="دفع عند الاستلام (COD)"></i>
+                            <i class="fas fa-credit-card" title="KNET"></i>
+                            <i class="fas fa-money-bill-wave" title="نقداً"></i>
+                        </div>
+                        <p style="margin-top: 1rem; font-size: 0.85rem; color: rgba(255, 255, 255, 0.7);">
+                            نقبل الدفع عند الاستلام (COD) و KNET
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Orascom Go. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const quickTrackForm = document.getElementById('quick-track-form');
+            const quickTrackingResult = document.getElementById('quick-tracking-result');
+        
+            if (quickTrackForm && quickTrackingResult) {
+                quickTrackForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const number = document.getElementById('quick-tracking-number').value.trim();
+                    
+                    console.log("Quick tracking for:", number);
+        
+                    if (!number) {
+                        quickTrackingResult.innerHTML = '<div class="error-message">❌ من فضلك أدخل رقم التتبع</div>';
+                        return;
+                    }
+        
+                    quickTrackingResult.innerHTML = '<div class="loading-message"><span class="spinner"></span>جاري البحث...</div>';
+        
+                    try {
+                        const res = await fetch(`/api/orders/track/${encodeURIComponent(number)}/`);
+                        console.log("Response status:", res.status);
+        
+                        if (!res.ok) throw new Error('رقم التتبع غير موجود');
+        
+                        const data = await res.json();
+                        console.log("Quick tracking data:", data);
+        
+                        const steps = [
+                            { key: "pending", label: "قيد الانتظار" },
+                            { key: "confirmed", label: "تم التأكيد" },
+                            { key: "picked_up", label: "تم الاستلام" },
+                            { key: "in_transit", label: "في الطريق" },
+                            { key: "out_for_delivery", label: "خرج للتسليم" },
+                            { key: "delivered", label: "تم التسليم" }
+                        ];
+        
+                        let activeIndex = steps.findIndex(s => s.key === data.status);
+                        if (activeIndex === -1) activeIndex = 0;
+        
+                        const htmlContent = `
+                            <div class="quick-tracking-card">
+                                <div class="quick-card-header">
+                                    <h4>✅ تم العثور على الطلب</h4>
+                                    <span class="quick-status-badge" style="background: linear-gradient(135deg, #27ae60 0%, #229954 100%);">
+                                        ${data.status_display}
+                                    </span>
+                                </div>
+                                
+                                <div class="quick-card-info">
+                                    <div class="quick-info-item">
+                                        <span class="quick-info-label">رقم التتبع:</span>
+                                        <span class="quick-info-value">${data.tracking_number}</span>
+                                    </div>
+                                    <div class="quick-info-item">
+                                        <span class="quick-info-label">من:</span>
+                                        <span class="quick-info-value">${data.from_area || 'غير محدد'}</span>
+                                    </div>
+                                    <div class="quick-info-item">
+                                        <span class="quick-info-label">إلى:</span>
+                                        <span class="quick-info-value">${data.to_area || 'غير محدد'}</span>
+                                    </div>
+                                </div>
+        
+                                <div class="quick-timeline">
+                                    ${steps.map((step, index) => `
+                                        <div class="quick-step ${index <= activeIndex ? 'active' : ''}">
+                                            <div class="quick-dot">
+                                                ${index <= activeIndex ? '✓' : ''}
+                                            </div>
+                                            <span>${step.label}</span>
+                                        </div>
+                                    `).join('')}
+                                </div>
+        
+                                <a href="#tracking" class="btn btn-primary" style="width: 100%; text-align: center; margin-top: 1rem; display: block;">
+                                    عرض التفاصيل الكاملة
+                                </a>
+                            </div>
+                        `;
+        
+                        quickTrackingResult.innerHTML = htmlContent;
+                    } catch (err) {
+                        console.error("Error:", err);
+                        quickTrackingResult.innerHTML = `<div class="error-message">❌ ${err.message}</div>`;
+                    }
+                });
+            }
+        });
+
+      // أضفه في script.js بعد getCsrfToken function
+
+// =========================
+// Contact Form Handler
+// =========================
+document.addEventListener('DOMContentLoaded', function() {
+    const contactForm = document.querySelector('.contact-form');
+    
+    if (!contactForm) {
+        console.log('Contact form not found');
+        return;
+    }
+
+    contactForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        // جمع البيانات من الفورم
+        const inputs = contactForm.querySelectorAll('input[type="text"]');
+        const phoneInput = contactForm.querySelector('input[type="tel"]');
+        const textareaInput = contactForm.querySelector('textarea');
+
+        const name = inputs[0]?.value.trim() || '';
+        const phone = phoneInput?.value.trim() || '';
+        const subject = inputs[1]?.value.trim() || '';
+        const message = textareaInput?.value.trim() || '';
+
+        console.log({name, phone, subject, message});
+
+        // التحقق من البيانات
+        if (!name || !phone || !subject || !message) {
+            showContactNotification('❌ جميع الحقول مطلوبة', 'error');
+            return;
+        }
+
+        if (phone.length < 8 || !/^\d+$/.test(phone)) {
+            showContactNotification('❌ رقم الهاتف غير صحيح', 'error');
+            return;
+        }
+
+        const submitBtn = contactForm.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn.textContent;
+        submitBtn.disabled = true;
+
+        try {
+            // الحصول على CSRF token
+            const csrfToken = getCsrfToken();
+            
+            const response = await fetch('/api/contact/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken || ''
+                },
+                body: JSON.stringify({
+                    name: name,
+                    phone: phone,
+                    subject: subject,
+                    message: message
+                })
+            });
+
+            console.log('Contact response status:', response.status);
+            
+            const data = await response.json();
+            console.log('Contact response data:', data);
+
+            if (response.ok) {
+                showContactNotification('✅ ' + data.message, 'success');
+                contactForm.reset();
+                
+                submitBtn.textContent = 'تم الإرسال!';
+                setTimeout(() => {
+                    submitBtn.textContent = originalBtnText;
+                    submitBtn.disabled = false;
+                }, 3000);
+            } else {
+                showContactNotification('❌ ' + (data.error || 'حدث خطأ في الإرسال'), 'error');
+                submitBtn.disabled = false;
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            showContactNotification('❌ حدث خطأ في الاتصال بالخادم', 'error');
+            submitBtn.disabled = false;
+        }
+    });
+
+    // دالة عرض الإشعارات
+    function showContactNotification(message, type) {
+        const existingNotification = document.querySelector('.notification');
+        if (existingNotification) {
+            existingNotification.remove();
+        }
+
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.textContent = message;
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: ${type === 'success' ? '#4caf50' : '#f44336'};
+            color: white;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            z-index: 9999;
+            font-size: 16px;
+            animation: slideIn 0.3s ease-out;
+            direction: rtl;
+        `;
+
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+            notification.style.animation = 'slideOut 0.3s ease-in';
+            setTimeout(() => {
+                notification.remove();
+            }, 300);
+        }, 5000);
+    }
+});
+        </script>
+
+    <script src="{% static 'script.js' %}"></script>
+</body>
+
+</html>

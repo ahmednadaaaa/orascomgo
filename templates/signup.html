@@ -1,0 +1,182 @@
+<!-- signup.html - معدّل -->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+    {% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إنشاء حساب - Orascom Go</title>
+    <meta name="description" content="إنشاء حساب جديد في Orascom Go - خدمة التوصيل السريع في الكويت">
+    <link rel="icon" type="image/jpeg" href="{% static 'photos/Untitled design.jpg' %}">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="auth-page">
+    <a href="index.html" class="back-home-btn">
+        <i class="fas fa-arrow-right"></i>
+    </a>
+    <div class="signup-wrapper">
+        <div class="signup-form-section">
+            <div class="logo-brand">
+                <div class="logo-icon">
+                    <img src="{% static 'photos/Untitled design.jpg' %}" alt="Orascom Go Logo">
+                </div>
+                <span class="brand-name">Orascom Go</span>
+            </div>
+            <div class="welcome-text">
+                <h1>انضم إلينا!</h1>
+                <p>ابدأ رحلتك مع Orascom Go اليوم</p>
+            </div>
+            <form class="signup-form" id="signupForm">
+                <div class="form-group">
+                    <label>الاسم الكامل</label>
+                    <input type="text" id="signup-name" placeholder="أدخل اسمك الكامل" required>
+                </div>
+                <div class="form-group">
+                    <label>رقم الهاتف <span style="color: #f44336;">*</span></label>
+                    <input type="tel" id="signup-phone" placeholder="5xxxxxxxx" pattern="[0-9]{8,10}" required>
+                </div>
+                <div class="form-group">
+                    <label>البريد الإلكتروني <span class="optional">(اختياري)</span></label>
+                    <input type="email" id="signup-email" placeholder="example@email.com">
+                </div>
+                <div class="form-group">
+                    <label>كلمة المرور</label>
+                    <input type="password" id="signup-password" placeholder="أدخل كلمة مرور قوية" required>
+                </div>
+                <div class="form-group">
+                    <label>تأكيد كلمة المرور</label>
+                    <input type="password" id="signup-confirm-password" placeholder="أعد إدخال كلمة المرور" required>
+                </div>
+                <div class="form-group">
+                    <label class="remember-me">
+                        <input type="checkbox" id="agree-terms" required>
+                        <span>أوافق على <a href="#terms">الشروط والأحكام</a> و <a href="#privacy">سياسة
+                                الخصوصية</a></span>
+                    </label>
+                </div>
+                <button type="submit" class="btn-signup">
+                    <span id="btn-text">إنشاء حساب</span>
+                    <span id="spinner" style="display: none; margin-left: 0.5rem;">
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </span>
+                </button>
+                <p class="login-link">
+                    لديك حساب بالفعل؟ <a href="login.html">سجل الدخول</a>
+                </p>
+            </form>
+        </div>
+        <div class="illustration-section">
+            <div class="illustration-images">
+                <div class="illustration-item">
+                    <img src="{% static 'photos/delivery-driver.png' %}" alt="Delivery Driver">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const signupForm = document.getElementById('signupForm');
+        const btnText = document.getElementById('btn-text');
+        const spinner = document.getElementById('spinner');
+
+        signupForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Show loading state
+            btnText.style.display = 'none';
+            spinner.style.display = 'inline-block';
+            signupForm.querySelector('button').disabled = true;
+
+            const name = document.getElementById('signup-name').value.trim();
+            const phone = document.getElementById('signup-phone').value.trim();
+            const email = document.getElementById('signup-email').value.trim();
+            const password = document.getElementById('signup-password').value;
+            const confirmPassword = document.getElementById('signup-confirm-password').value;
+
+            // Validation
+            if (!name || !phone || !password) {
+                alert('جميع الحقول المطلوبة مفقودة');
+                resetButton();
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                alert('كلمة المرور غير متطابقة');
+                resetButton();
+                return;
+            }
+
+            if (password.length < 8) {
+                alert('كلمة المرور يجب أن تكون 8 أحرف على الأقل');
+                resetButton();
+                return;
+            }
+
+            try {
+                console.log("Sending registration data...", {
+                    username: phone,
+                    email: email,
+                    phone: phone,
+                    first_name: name.split(' ')[0],
+                    last_name: name.split(' ').slice(1).join(' '),
+                    password: password,
+                    password_confirm: confirmPassword,
+                    user_type: 'customer'
+                });
+
+                const response = await fetch("/api/register/", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        username: phone,
+                        email: email,
+                        phone: phone,
+                        first_name: name.split(' ')[0] || '',
+                        last_name: name.split(' ').slice(1).join(' ') || '',
+                        password: password,
+                        password_confirm: confirmPassword,
+                        user_type: 'customer'
+                    })
+                });
+
+                console.log("Response status:", response.status);
+                const data = await response.json();
+                console.log("Response data:", data);
+
+                if (!response.ok) {
+                    const errorMsg = typeof data === 'string' ? data : (data.error || data.detail || "حدث خطأ أثناء التسجيل");
+                    alert(errorMsg);
+                    resetButton();
+                    return;
+                }
+
+                alert("✅ تم إنشاء الحساب بنجاح!");
+                // Redirect after 1 second
+                setTimeout(() => {
+                    window.location.href = "login.html";
+                }, 1000);
+
+            } catch (err) {
+                console.error("Error:", err);
+                alert("❌ خطأ في الاتصال بالسيرفر: " + err.message);
+                resetButton();
+            }
+        });
+
+        function resetButton() {
+            btnText.style.display = 'inline';
+            spinner.style.display = 'none';
+            signupForm.querySelector('button').disabled = false;
+        }
+    </script>
+</body>
+
+</html>

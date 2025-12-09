@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+    {% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول - Orascom Go</title>
+    <meta name="description" content="تسجيل الدخول إلى Orascom Go - خدمة التوصيل السريع في الكويت">
+    <link rel="icon" type="{% static 'image/jpeg' %}" href="photos/Untitled design.jpg">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="auth-page">
+    <a href="{% url 'home' %}" class="back-home-btn">
+        <i class="fas fa-arrow-right"></i>
+    </a>
+    <div class="login-wrapper">
+        <div class="login-form-section">
+            <div class="logo-brand">
+                <div class="logo-icon">
+                    <img src="{% static 'photos/Untitled design.jpg' %}" alt="Orascom Go Logo">
+                </div>
+                <span class="brand-name">Orascom Go</span>
+            </div>
+            <div class="welcome-text">
+                <h1>مرحباً!</h1>
+                <p>مرحباً بك مرة أخرى في مكانك</p>
+            </div>
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label>رقم الهاتف <span style="color: #f44336;">*</span></label>
+                    <input type="tel" id="login-phone" placeholder="5xxxxxxxx" pattern="[0-9]{8,10}" required>
+                </div>
+                <div class="form-group">
+                    <label>البريد الإلكتروني <span class="optional">(اختياري)</span></label>
+                    <input type="email" id="login-email" placeholder="joe@gmail.com">
+                </div>
+                <div class="form-group">
+                    <label>كلمة المرور</label>
+                    <input type="password" id="login-password" placeholder="*********" required>
+                </div>
+                <div class="remember-forgot">
+                    <label class="remember-me">
+                        <input type="checkbox" id="remember-me">
+                        <span>تذكرني</span>
+                    </label>
+                    <a href="change-password.html" class="forgot-password-link">نسيت كلمة المرور؟</a>
+                </div>
+                <button type="submit" class="btn-signin">تسجيل الدخول</button>
+                <p class="signup-link">
+                    ليس لديك حساب؟ <a href="signup.html">سجل الآن</a>
+                </p>
+            </form>
+        </div>
+        <div class="illustration-section">
+            <div class="illustration-images">
+                <div class="illustration-item">
+                    <img src="{% static 'photos/delivery-driver.png' %}" alt="Delivery Driver">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="loading" id="loading"></div>
+
+    <script>
+        const loginForm = document.getElementById('loginForm');
+        const loading = document.getElementById('loading');
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            loading.style.display = 'block';
+
+            const phone = document.getElementById('login-phone').value;
+            const password = document.getElementById('login-password').value;
+
+            try {
+                const response = await fetch("/api/auth/login/", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        phone: phone,
+                        password: password
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    alert(data.error || "بيانات تسجيل الدخول غير صحيحة");
+                    return;
+                }
+
+                // Save token and user info
+                localStorage.setItem("token", data.token);
+                localStorage.setItem("phone", phone);
+                localStorage.setItem("user", JSON.stringify(data.user));
+
+                alert("تم تسجيل الدخول بنجاح");
+                window.location.href = "{% url 'home' %}";
+
+            } catch (err) {
+                alert("خطأ في الاتصال بالسيرفر");
+            } finally {
+                loading.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+
+</html>
