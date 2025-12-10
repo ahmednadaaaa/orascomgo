@@ -406,3 +406,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+document.addEventListener('DOMContentLoaded', () => {
+    // Don't run on profile page to avoid overwriting logout button
+    if (window.location.pathname.includes('profile.html')) return;
+
+    const navAuth = document.querySelector('.nav-auth');
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    const userName = localStorage.getItem('userName') || 'حسابي';
+
+    if (isLoggedIn && navAuth) {
+        navAuth.innerHTML = `
+            <a href="profile.html" class="btn btn-login" style="background: var(--primary-blue); color: white; border: none;">
+                <i class="fas fa-user"></i> ${userName}
+            </a>
+        `;
+    }
+});

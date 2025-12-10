@@ -13,9 +13,10 @@ urlpatterns = [
     path('api/contact/', include('contact.urls')),
     # الصفحات الرئيسية
     path('', TemplateView.as_view(template_name='index.html'), name='home'),
-    path('login.html', TemplateView.as_view(template_name='login.html')),
+    path('login.html', TemplateView.as_view(template_name='login.html'), name='login_page'),
     path('signup.html', TemplateView.as_view(template_name='signup.html')),
-    
+    path('profile.html', TemplateView.as_view(template_name='profile.html'), name='profile_page'),    
+
     path('change-password.html', TemplateView.as_view(template_name='change-password.html')),
 ]
 

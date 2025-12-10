@@ -1,151 +1,48 @@
-// Orascom Go - script.js
-// يحوي معالجة الطلب بدون تسجيل، تتبع الشحنة، التابات، وحماية للـ loading
+// ضع هذا في أول الملف - قبل DOMContentLoaded
 
-document.addEventListener('DOMContentLoaded', () => {
-    // =========================
-    // 1. الطلب بدون تسجيل (guest-order-form)
-    // =========================
-    const guestForm = document.getElementById('guest-order-form');
-    const submitBtn = guestForm ? document.getElementById('submit-guest-order') : null;
-    const spinner = submitBtn ? submitBtn.querySelector('.spinner') : null;
-    const loading = document.getElementById('loading');
+function getCsrfToken() {
+  let token = document.querySelector('[name=csrfmiddlewaretoken]')?.value;
   
-    if (guestForm && submitBtn && spinner) {
-      guestForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        submitBtn.disabled = true;
-        spinner.style.display = 'inline-block';
-        if (loading) loading.style.display = 'block';
-  
-        // جمع بيانات الطلب
-        const orderData = {
-          customer_name: guestForm.querySelector('#order-name') ? guestForm.querySelector('#order-name').value : '',
-          customer_phone: guestForm.querySelector('#order-phone') ? guestForm.querySelector('#order-phone').value : '',
-          from_area: guestForm.querySelector('#order-from') ? guestForm.querySelector('#order-from').value : '',
-          to_area: guestForm.querySelector('#order-to') ? guestForm.querySelector('#order-to').value : '',
-          pickup_address: guestForm.querySelector('#order-address') ? guestForm.querySelector('#order-address').value : '',
-          delivery_address: guestForm.querySelector('#order-address') ? guestForm.querySelector('#order-address').value : '',
-          weight: guestForm.querySelector('#order-weight') ? parseFloat(guestForm.querySelector('#order-weight').value) : 0,
-          service_type: guestForm.querySelector('#order-service-type') ? guestForm.querySelector('#order-service-type').value : '',
-          notes: guestForm.querySelector('#order-notes') ? guestForm.querySelector('#order-notes').value : '',
-          payment_method: guestForm.querySelector('input[name="payment"]:checked') ? guestForm.querySelector('input[name="payment"]:checked').value : ''
-        };
-  
-        try {
-          const response = await fetch('/api/orders/', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(orderData)
-          });
-        
-          const result = await response.json();
-          if (response.ok) {
-            alert(`تم إنشاء الطلب بنجاح!\nرقم التتبع: ${result.tracking_number || ''}`);
-            guestForm.reset();
-          } else {
-            alert('حصل خطأ: ' + (result.detail || JSON.stringify(result)));
+  if (!token) {
+      const name = 'csrftoken';
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+          const cookies = document.cookie.split(';');
+          for (let i = 0; i < cookies.length; i++) {
+              const cookie = cookies[i].trim();
+              if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                  break;
+              }
           }
-        } catch (err) {
-          alert('فشل الاتصال');
-        } finally {
-          submitBtn.disabled = false;
-          spinner.style.display = 'none';
+      }
+      token = cookieValue;
+  }
+  
+  console.log('CSRF Token:', token ? '✅ Found' : '❌ Not Found');
+  return token;
+}
+const menuToggle = document.querySelector('.menu-toggle');
+const navMenu = document.querySelector('.nav-menu');
+
+if (menuToggle && navMenu) {
+    menuToggle.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+
+        // Animate hamburger icon
+        const spans = menuToggle.querySelectorAll('span');
+        if (navMenu.classList.contains('active')) {
+            spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+            spans[1].style.opacity = '0';
+            spans[2].style.transform = 'rotate(-45deg) translate(7px, -6px)';
+        } else {
+            spans[0].style.transform = 'none';
+            spans[1].style.opacity = '1';
+            spans[2].style.transform = 'none';
         }
-      });
-    }
-  
-    // =========================
-    // 2. التابات للتبديل بين تتبع برقم التتبع/الهاتف
-    // =========================
-    const tabs = document.querySelectorAll('.track-tab-btn');
-    const trackingFormNumber = document.getElementById('tracking-form-number');
-    const trackingFormPhone = document.getElementById('tracking-form-phone');
-    const trackingResult = document.getElementById('tracking-result');
-  
-    if (tabs.length && trackingFormNumber && trackingFormPhone && trackingResult) {
-      tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-          tabs.forEach(t => t.classList.remove('active'));
-          tab.classList.add('active');
-          if (tab.dataset.tab === 'tracking-number') {
-            trackingFormNumber.style.display = 'block';
-            trackingFormPhone.style.display = 'none';
-          } else {
-            trackingFormNumber.style.display = 'none';
-            trackingFormPhone.style.display = 'block';
-          }
-          trackingResult.innerHTML = '';
-        });
-      });
-    }
-  
-    // =========================
-    // 3. تتبع برقم التتبع (tracking-form-number)
-    // =========================
-    if (trackingFormNumber && trackingResult) {
-      trackingFormNumber.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const numberInput = trackingFormNumber.querySelector('#tracking-number');
-        const number = numberInput ? numberInput.value.trim() : '';
-        if (loading) loading.style.display = 'block';
-        trackingResult.innerHTML = '';
-        try {
-          const res = await fetch(`/api/orders/track/${encodeURIComponent(number)}/`);
-          if (!res.ok) throw new Error('رقم التتبع غير موجود أو الحالة غير متاحة');
-          const data = await res.json();
-          trackingResult.innerHTML = `
-            <p><strong>رقم التتبع:</strong> ${data.tracking_number || ''}</p>
-            <p><strong>الحالة:</strong> ${data.status_display || ''}</p>
-            <p><strong>من منطقة:</strong> ${data.from_area || ''}</p>
-            <p><strong>إلى منطقة:</strong> ${data.to_area || ''}</p>
-            <p><strong>تاريخ الإنشاء:</strong> ${data.created_at ? new Date(data.created_at).toLocaleString() : ''}</p>
-          `;
-        } catch (err) {
-          trackingResult.innerHTML = `<p class="error">${err.message}</p>`;
-        } finally {
-          if (loading) loading.style.display = 'none';
-        }
-      });
-    }
-  
-    // =========================
-    // 4. تتبع برقم الهاتف (tracking-form-phone)
-    // =========================
-    if (trackingFormPhone && trackingResult) {
-      trackingFormPhone.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const phoneInput = trackingFormPhone.querySelector('#tracking-phone');
-        const phone = phoneInput ? phoneInput.value.trim() : '';
-        if (loading) loading.style.display = 'block';
-        trackingResult.innerHTML = '';
-        try {
-          const res = await fetch(`/api/orders/track-by-phone/${encodeURIComponent(phone)}/`);
-          if (!res.ok) throw new Error('لا توجد طلبات لهذا الرقم');
-          const data = await res.json();
-          if (!data || !Array.isArray(data) || data.length === 0) {
-            trackingResult.innerHTML = `<p>لا توجد طلبات لهذا الرقم</p>`;
-            return;
-          }
-          trackingResult.innerHTML = data.map(order => `
-            <div class="order-item">
-              <p><strong>رقم التتبع:</strong> ${order.tracking_number || ''}</p>
-              <p><strong>الحالة:</strong> ${order.status_display || ''}</p>
-              <p><strong>من منطقة:</strong> ${order.from_area || ''}</p>
-              <p><strong>إلى منطقة:</strong> ${order.to_area || ''}</p>
-              <p><strong>تاريخ الإنشاء:</strong> ${order.created_at ? new Date(order.created_at).toLocaleString() : ''}</p>
-            </div>
-          `).join('');
-        } catch (err) {
-          trackingResult.innerHTML = `<p class="error">${err.message}</p>`;
-        } finally {
-          if (loading) loading.style.display = 'none';
-        }
-      });
-    }
-  });
-  
+    });
+}
+
   // Orascom Go - script.js (Fixed Version)
 document.addEventListener('DOMContentLoaded', () => {
     // =========================
@@ -507,5 +404,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('❌ فشل الاتصال بالخادم');
             }
         });
+    }
+});
+document.addEventListener('DOMContentLoaded', () => {
+    // Don't run on profile page to avoid overwriting logout button
+    if (window.location.pathname.includes('profile.html')) return;
+
+    const navAuth = document.querySelector('.nav-auth');
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    const userName = localStorage.getItem('userName') || 'حسابي';
+
+    if (isLoggedIn && navAuth) {
+        navAuth.innerHTML = `
+            <a href="profile.html" class="btn btn-login" style="background: var(--primary-blue); color: white; border: none;">
+                <i class="fas fa-user"></i> ${userName}
+            </a>
+        `;
     }
 });

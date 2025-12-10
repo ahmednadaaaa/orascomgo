@@ -121,3 +121,4 @@ def contact_us_view(request):
             {'error': f'حدث خطأ: {str(e)}'},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
+        

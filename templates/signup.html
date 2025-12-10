@@ -17,7 +17,7 @@
 </head>
 
 <body class="auth-page">
-    <a href="index.html" class="back-home-btn">
+    <a href="{% url 'home' %}" class="back-home-btn">
         <i class="fas fa-arrow-right"></i>
     </a>
     <div class="signup-wrapper">
@@ -33,6 +33,7 @@
                 <p>ابدأ رحلتك مع Orascom Go اليوم</p>
             </div>
             <form class="signup-form" id="signupForm">
+                {% csrf_token %}
                 <div class="form-group">
                     <label>الاسم الكامل</label>
                     <input type="text" id="signup-name" placeholder="أدخل اسمك الكامل" required>
@@ -84,56 +85,50 @@
         const signupForm = document.getElementById('signupForm');
         const btnText = document.getElementById('btn-text');
         const spinner = document.getElementById('spinner');
-
+    
+        // --- Get CSRF Token Automatically ---
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== "") {
+                const cookies = document.cookie.split(";");
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + "=")) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie("csrftoken");
+    
         signupForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            // Show loading state
+            // UI loading state
             btnText.style.display = 'none';
             spinner.style.display = 'inline-block';
             signupForm.querySelector('button').disabled = true;
-
+    
             const name = document.getElementById('signup-name').value.trim();
             const phone = document.getElementById('signup-phone').value.trim();
             const email = document.getElementById('signup-email').value.trim();
             const password = document.getElementById('signup-password').value;
             const confirmPassword = document.getElementById('signup-confirm-password').value;
-
-            // Validation
-            if (!name || !phone || !password) {
-                alert('جميع الحقول المطلوبة مفقودة');
-                resetButton();
-                return;
-            }
-
+    
             if (password !== confirmPassword) {
                 alert('كلمة المرور غير متطابقة');
                 resetButton();
                 return;
             }
-
-            if (password.length < 8) {
-                alert('كلمة المرور يجب أن تكون 8 أحرف على الأقل');
-                resetButton();
-                return;
-            }
-
+    
             try {
-                console.log("Sending registration data...", {
-                    username: phone,
-                    email: email,
-                    phone: phone,
-                    first_name: name.split(' ')[0],
-                    last_name: name.split(' ').slice(1).join(' '),
-                    password: password,
-                    password_confirm: confirmPassword,
-                    user_type: 'customer'
-                });
-
                 const response = await fetch("/api/register/", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
+                        "X-CSRFToken": csrftoken   // ⬅ أهم إضافة
                     },
                     body: JSON.stringify({
                         username: phone,
@@ -146,31 +141,26 @@
                         user_type: 'customer'
                     })
                 });
-
-                console.log("Response status:", response.status);
+    
                 const data = await response.json();
-                console.log("Response data:", data);
-
+    
                 if (!response.ok) {
-                    const errorMsg = typeof data === 'string' ? data : (data.error || data.detail || "حدث خطأ أثناء التسجيل");
-                    alert(errorMsg);
+                    alert(data.detail || data.error || "حدث خطأ أثناء التسجيل");
                     resetButton();
                     return;
                 }
-
-                alert("✅ تم إنشاء الحساب بنجاح!");
-                // Redirect after 1 second
+    
+                alert("تم إنشاء الحساب بنجاح! 🎉");
                 setTimeout(() => {
-                    window.location.href = "login.html";
+                    window.location.href = "{% url 'login_page' %}";
                 }, 1000);
-
+    
             } catch (err) {
-                console.error("Error:", err);
-                alert("❌ خطأ في الاتصال بالسيرفر: " + err.message);
+                alert("خطأ في الاتصال بالسيرفر");
                 resetButton();
             }
         });
-
+    
         function resetButton() {
             btnText.style.display = 'inline';
             spinner.style.display = 'none';

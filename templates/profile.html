@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الملف الشخصي - Orascom Go</title>
+    <meta name="description" content="الملف الشخصي - Orascom Go">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <link rel="icon" type="image/jpeg" href="{% static 'photos/Untitled design.jpg' %}">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="container">
+        <div class="nav-wrapper">
+            <div class="logo-container">
+                <img src="{% static 'photos/Untitled design.jpg' %}" alt="Orascom Go Logo" class="logo">
+                <span class="logo-text">Orascom Go</span>
+            </div>
+            <button class="menu-toggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="{% url 'home' %}">الرئيسية</a></li>
+                <li><a href="{% url 'home' %}#order">اطلب توصيل</a></li>
+                <li><a href="{% url 'home' %}#services">خدمات التوصيل</a></li>
+                <li><a href="{% url 'home' %}#tracking">تتبع شحنتك</a></li>
+                <li><a href="{% url 'home' %}#register">سجل معنا</a></li>
+                <li><a href="{% url 'home' %}#about">من نحن</a></li>
+                <li><a href="{% url 'home' %}#contact">اتصل بنا</a></li>
+                {% if user.is_authenticated %}
+                <li class="nav-auth">
+                    <button id="logoutBtn" class="btn-logout">
+                        <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
+                    </button>
+                </li>
+                {% else %}
+                <li class="nav-auth">
+                    <a href="login.html" class="btn btn-login">
+                        <i class="fas fa-sign-in-alt"></i> تسجيل الدخول
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="profile-wrapper">
+        <div class="profile-header">
+            <div class="profile-avatar">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="profile-title">
+                <h1 id="profile-name-display">اسم المستخدم</h1>
+                <p id="profile-phone-display">رقم الهاتف</p>
+            </div>
+        </div>
+
+        <!-- نموذج تعديل البيانات -->
+        <form id="profileForm">
+            <div class="profile-section">
+                <h2><i class="fas fa-id-card"></i> المعلومات الشخصية</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>الاسم الكامل</label>
+                        <input type="text" id="profile-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>رقم الهاتف</label>
+                        <input type="tel" id="profile-phone" required maxlength="10" minlength="8" pattern="[0-9]{8,10}" placeholder="98752233">
+                    </div>
+                    <div class="form-group">
+                        <label>البريد الإلكتروني</label>
+                        <input type="email" id="profile-email" placeholder="orascomgokuwait@gmail.com">
+                    </div>
+                    <div class="form-group">
+                        <label>العنوان</label>
+                        <input type="text" id="profile-address" placeholder="المنطقة، المقاطة، الحى، الشارع، ...">
+                    </div>
+                </div>
+                <button type="submit" class="btn-save"><i class="fas fa-save"></i> حفظ التغييرات</button>
+            </div>
+        </form>
+
+        <!-- تغيير كلمة المرور -->
+        <div class="password-section">
+            <h2><i class="fas fa-lock"></i> تغيير كلمة المرور</h2>
+            <form id="changePasswordFormProfile">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>كلمة المرور الحالية</label>
+                        <input type="password" id="current-password" required>
+                    </div>
+                    <div class="form-group">
+                        <label>كلمة المرور الجديدة</label>
+                        <input type="password" id="new-password" required>
+                    </div>
+                    <div class="form-group">
+                        <label>تأكيد كلمة المرور</label>
+                        <input type="password" id="confirm-password" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" style="margin-top: 1rem;">تحديث كلمة المرور</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    const token = localStorage.getItem('token');
+    if (!token) {
+        window.location.href = 'login.html';
+    }
+
+    const profileName = document.getElementById('profile-name');
+    const profilePhone = document.getElementById('profile-phone');
+    const profileEmail = document.getElementById('profile-email');
+    const profileAddress = document.getElementById('profile-address');
+    const profileNameDisplay = document.getElementById('profile-name-display');
+    const profilePhoneDisplay = document.getElementById('profile-phone-display');
+
+    // جلب بيانات البروفايل
+    fetch('/api/auth/profile/', {
+        headers: { 'Authorization': `Token ${token}` }
+    })
+    .then(res => res.json())
+    .then(data => {
+        profileName.value = data.first_name + ' ' + (data.last_name || '');
+        profilePhone.value = data.phone || '';
+        profileEmail.value = data.email || '';
+        profileAddress.value = data.address || '';
+        profileNameDisplay.textContent = profileName.value;
+        profilePhoneDisplay.textContent = data.phone;
+    });
+
+    // حفظ البيانات
+    document.getElementById('profileForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // التحقق من رقم الهاتف
+        const phonePattern = /^[0-9]{8}$/;
+        if (!phonePattern.test(profilePhone.value)) {
+            alert('رقم الهاتف غير صالح');
+            return;
+        }
+
+        const bodyData = {
+            username: profilePhone.value, // لو رقم الهاتف هو الـ username
+            first_name: profileName.value.split(' ')[0] || "",
+            last_name: profileName.value.split(' ').slice(1).join(' ') || "",
+            phone: profilePhone.value || "",
+            email: profileEmail.value || "",
+            address: profileAddress.value || ""
+        };
+
+        try {
+            const res = await fetch('/api/auth/profile/', {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Token ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(bodyData)
+            });
+            
+            const data = await res.json();
+
+            if (!res.ok) {
+                console.error('Profile update error:', data);
+                alert(data.detail || data.error || 'حدث خطأ أثناء تحديث البيانات');
+                return;
+            }
+
+            alert('تم تحديث البيانات بنجاح!');
+            profileNameDisplay.textContent = profileName.value;
+            profilePhoneDisplay.textContent = profilePhone.value;
+
+        } catch (err) {
+            console.error('Network error:', err);
+            alert('حدث خطأ في الاتصال بالسيرفر');
+        }
+    });
+
+    // تغيير كلمة المرور
+    const changePasswordForm = document.getElementById('changePasswordFormProfile');
+    changePasswordForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const old_password = document.getElementById('current-password').value;
+        const new_password = document.getElementById('new-password').value;
+        const confirm_password = document.getElementById('confirm-password').value;
+
+        if (new_password !== confirm_password) {
+            alert('كلمة المرور الجديدة وتأكيدها غير متطابقين');
+            return;
+        }
+
+        if (new_password.length < 8) {
+            alert('كلمة المرور يجب أن تكون 8 أحرف على الأقل');
+            return;
+        }
+
+        try {
+            const res = await fetch('/api/auth/change-password/', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Token ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ old_password, new_password })
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                console.error('Password change error:', data);
+                alert(data.detail || data.error || 'حدث خطأ أثناء تغيير كلمة المرور');
+                return;
+            }
+
+            alert('تم تغيير كلمة المرور بنجاح!');
+        } catch (err) {
+            console.error('Network error:', err);
+            alert('حدث خطأ في الاتصال بالسيرفر');
+        }
+    });
+
+    // تسجيل خروج
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', async () => {
+            await fetch('/api/auth/logout/', {
+                method: 'POST',
+                headers: { 'Authorization': `Token ${token}` }
+            });
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = 'login.html';
+        });
+    }
+</script>
+
+<script src="{% static 'script.js' %}"></script>
+</body>
+</html>
