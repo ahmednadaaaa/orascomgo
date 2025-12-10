@@ -6,9 +6,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-your-secret-key-here')
 
-DEBUG = config('DEBUG', default=True, cast=bool)
+DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['orascomgo.com', 'www.orascomgo.com']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
